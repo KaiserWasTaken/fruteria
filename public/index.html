@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutería "La Frescura" - Sistema de Gestión</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-apple-alt"></i>
+                <h1>Frutería "La Frescura"</h1>
+            </div>
+            <div class="user-info">
+                <span><i class="fas fa-user"></i> Administrador</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a></li>
+                <li><a href="#productos" class="nav-link" data-section="productos">
+                    <i class="fas fa-apple-alt"></i> Productos
+                </a></li>
+                <li><a href="#clientes" class="nav-link" data-section="clientes">
+                    <i class="fas fa-users"></i> Clientes
+                </a></li>
+                <li><a href="#empleados" class="nav-link" data-section="empleados">
+                    <i class="fas fa-user-tie"></i> Empleados
+                </a></li>
+                <li><a href="#proveedores" class="nav-link" data-section="proveedores">
+                    <i class="fas fa-truck"></i> Proveedores
+                </a></li>
+                <li><a href="#ventas" class="nav-link" data-section="ventas">
+                    <i class="fas fa-shopping-cart"></i> Ventas
+                </a></li>
+                <li><a href="#compras" class="nav-link" data-section="compras">
+                    <i class="fas fa-box"></i> Compras
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <h2><i class="fas fa-tachometer-alt"></i> Panel de Control</h2>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-apple-alt"></i> Productos</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-number" id="total-productos">-</div>
+                            <div class="stat-label">Total de productos</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-users"></i> Clientes</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-number" id="total-clientes">-</div>
+                            <div class="stat-label">Total de clientes</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-user-tie"></i> Empleados</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-number" id="total-empleados">-</div>
+                            <div class="stat-label">Total de empleados</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-shopping-cart"></i> Ventas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-number" id="total-ventas">-</div>
+                            <div class="stat-label">Ventas del mes: $<span id="monto-ventas">-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-box"></i> Compras</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-number" id="total-compras">-</div>
+                            <div class="stat-label">Compras del mes: $<span id="monto-compras">-</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Ganancias</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-number" id="ganancias-mes">-$</div>
+                            <div class="stat-label">Ganancia estimada del mes</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="productos" class="section">
+                <h2><i class="fas fa-apple-alt"></i> Gestión de Productos</h2>
+
+                <div class="section-actions">
+                    <button class="btn btn-primary" onclick="showAddProductModal()">
+                        <i class="fas fa-plus"></i> Nuevo Producto
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="search-productos" placeholder="Buscar productos...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Unidad</th>
+                                <th>Existencia</th>
+                                <th>Precio Compra</th>
+                                <th>Precio Venta</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productos-table">
+                            <tr>
+                                <td colspan="8" class="loading">Cargando productos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Clients Section -->
+            <section id="clientes" class="section">
+                <h2><i class="fas fa-users"></i> Gestión de Clientes</h2>
+
+                <div class="section-actions">
+                    <button class="btn btn-primary" onclick="showAddClientModal()">
+                        <i class="fas fa-plus"></i> Nuevo Cliente
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Teléfono</th>
+                                <th>RFC</th>
+                                <th>Domicilio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientes-table">
+                            <tr>
+                                <td colspan="5" class="loading">Cargando clientes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Employees Section -->
+            <section id="empleados" class="section">
+                <h2><i class="fas fa-user-tie"></i> Gestión de Empleados</h2>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Turno</th>
+                                <th>Salario</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="empleados-table">
+                            <tr>
+                                <td colspan="5" class="loading">Cargando empleados...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Providers Section -->
+            <section id="proveedores" class="section">
+                <h2><i class="fas fa-truck"></i> Gestión de Proveedores</h2>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Ciudad</th>
+                                <th>Contacto</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="proveedores-table">
+                            <tr>
+                                <td colspan="6" class="loading">Cargando proveedores...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sales Section -->
+            <section id="ventas" class="section">
+                <h2><i class="fas fa-shopping-cart"></i> Gestión de Ventas</h2>
+
+                <div class="section-actions">
+                    <button class="btn btn-primary" onclick="showAddSaleModal()">
+                        <i class="fas fa-plus"></i> Nueva Venta
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Empleado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ventas-table">
+                            <tr>
+                                <td colspan="5" class="loading">Cargando ventas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Purchases Section -->
+            <section id="compras" class="section">
+                <h2><i class="fas fa-box"></i> Gestión de Compras</h2>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Lote</th>
+                                <th>Fecha</th>
+                                <th>Proveedor</th>
+                                <th>Empleado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="compras-table">
+                            <tr>
+                                <td colspan="6" class="loading">Cargando compras...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Título del Modal</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-content">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
