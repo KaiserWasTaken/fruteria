@@ -96,10 +96,12 @@ app.delete('/api/productos/:codigo', async (req, res) => {
     }
 });
 
-// 2. CLIENTES
+// --- PEGAR EN SERVER.JS (Reemplazando la sección actual de CLIENTES) ---
+
+// Obtener todos
 app.get('/api/clientes', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM fruteria.cliente ORDER BY id_c');
+        const result = await pool.query('SELECT * FROM fruteria.cliente ORDER BY id_c ASC');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -107,16 +109,53 @@ app.get('/api/clientes', async (req, res) => {
     }
 });
 
+// Crear nuevo
 app.post('/api/clientes', async (req, res) => {
     try {
-        const { telefono, rfc, domicilio } = req.body;
-        await pool.query(
-            'INSERT INTO fruteria.cliente (telefono, rfc, domicilio) VALUES ($1, $2, $3)',
-            [telefono, rfc, domicilio]
+        // Ahora aceptamos nombre y correo también
+        const { nombre, telefono, rfc, domicilio, correo } = req.body;
+        
+        const result = await pool.query(
+            'INSERT INTO fruteria.cliente (nombre, telefono, rfc, domicilio, correo) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [nombre, telefono, rfc, domicilio, correo]
         );
-        res.json({ message: 'Cliente guardado' });
+        res.json(result.rows[0]);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error(err);
+        res.status(500).json({ error: 'Error al guardar cliente' });
+    }
+});
+
+// Actualizar (PUT) - ¡NUEVO!
+app.put('/api/clientes/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombre, telefono, rfc, domicilio, correo } = req.body;
+        
+        const result = await pool.query(
+            'UPDATE fruteria.cliente SET nombre=$1, telefono=$2, rfc=$3, domicilio=$4, correo=$5 WHERE id_c=$6 RETURNING *',
+            [nombre, telefono, rfc, domicilio, correo, id]
+        );
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al actualizar cliente' });
+    }
+});
+
+// Eliminar (DELETE) - ¡NUEVO!
+app.delete('/api/clientes/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await pool.query('DELETE FROM fruteria.cliente WHERE id_c = $1', [id]);
+        res.json({ message: 'Cliente eliminado correctamente' });
+    } catch (err) {
+        console.error(err);
+        // El error 23503 pasa si intentas borrar un cliente que ya tiene ventas registradas
+        if (err.code === '23503') {
+            return res.status(400).json({ error: 'No se puede eliminar: El cliente tiene ventas registradas.' });
+        }
+        res.status(500).json({ error: 'Error al eliminar cliente' });
     }
 });
 
