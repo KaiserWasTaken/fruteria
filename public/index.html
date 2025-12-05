@@ -184,6 +184,11 @@
             </section>
 
             <section id="empleados" class="section">
+
+                <button class="btn btn-primary" onclick="showAddEmpleadoModal()">
+                    <i class="fas fa-plus"></i> Nuevo Empleado
+                </button>
+
                 <h2><i class="fas fa-user-tie"></i> Gestión de Empleados</h2>
 
                 <div class="table-container">
@@ -328,6 +333,50 @@
                 </form>
             </div>
         </div>
+
+        <div id="modal-empleado" class="modal" style="display: none;">
+        <div class="modal-header">
+            <h3 id="modal-title-empleado">Nuevo Empleado</h3>
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="form-empleado">
+                <input type="hidden" id="emp-id"> <div class="form-group">
+                    <label>Nombre Completo:</label>
+                    <input type="text" id="emp-nombre" required placeholder="Ej: Maria González">
+                </div>
+
+                <div class="form-group">
+                    <label>Puesto:</label>
+                    <input type="text" id="emp-puesto" placeholder="Ej: Cajera, Vendedor, Bodeguero">
+                </div>
+
+                <div class="form-group">
+                    <label>Turno:</label>
+                    <select id="emp-turno">
+                        <option value="Matutino">Matutino</option>
+                        <option value="Vespertino">Vespertino</option>
+                        <option value="Mixto">Mixto</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono:</label>
+                    <input type="text" id="emp-telefono" placeholder="555-000-0000">
+                </div>
+
+                <div class="form-group">
+                    <label>Salario Mensual:</label>
+                    <input type="number" id="emp-salario" step="0.01" required placeholder="0.00">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Empleado</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     </div>
 

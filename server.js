@@ -160,9 +160,12 @@ app.delete('/api/clientes/:id', async (req, res) => {
 });
 
 // 3. EMPLEADOS
+// --- PEGAR EN SERVER.JS (Reemplazando la sección de EMPLEADOS) ---
+
+// Obtener todos
 app.get('/api/empleados', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM fruteria.empleado ORDER BY id_e');
+        const result = await pool.query('SELECT * FROM fruteria.empleado ORDER BY id_e ASC');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -170,15 +173,46 @@ app.get('/api/empleados', async (req, res) => {
     }
 });
 
+// Crear nuevo
 app.post('/api/empleados', async (req, res) => {
     try {
-        const { nombre, turno, salario } = req.body;
+        const { nombre, puesto, turno, salario, telefono } = req.body;
         await pool.query(
-            'INSERT INTO fruteria.empleado (nombre, turno, salario) VALUES ($1, $2, $3)',
-            [nombre, turno, salario]
+            'INSERT INTO fruteria.empleado (nombre, puesto, turno, salario, telefono) VALUES ($1, $2, $3, $4, $5)',
+            [nombre, puesto, turno, salario, telefono]
         );
         res.json({ message: 'Empleado guardado' });
     } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Actualizar (PUT) - ¡NUEVO!
+app.put('/api/empleados/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombre, puesto, turno, salario, telefono } = req.body;
+        await pool.query(
+            'UPDATE fruteria.empleado SET nombre=$1, puesto=$2, turno=$3, salario=$4, telefono=$5 WHERE id_e=$6',
+            [nombre, puesto, turno, salario, telefono, id]
+        );
+        res.json({ message: 'Empleado actualizado' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Eliminar (DELETE) - ¡NUEVO!
+app.delete('/api/empleados/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await pool.query('DELETE FROM fruteria.empleado WHERE id_e = $1', [id]);
+        res.json({ message: 'Empleado eliminado' });
+    } catch (err) {
+        // Error 23503: Si el empleado tiene ventas o compras registradas
+        if (err.code === '23503') { 
+            return res.status(400).json({ error: 'No se puede eliminar: El empleado tiene historial de ventas/compras.' });
+        }
         res.status(500).json({ error: err.message });
     }
 });
