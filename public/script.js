@@ -160,6 +160,8 @@ async function loadProductos() {
     }
 }
 
+// --- CORRECCIÓN PARA SCRIPT.JS ---
+
 function renderProductos(productosToRender = productos) {
     const tbody = document.getElementById('productos-table');
 
@@ -182,17 +184,16 @@ function renderProductos(productosToRender = productos) {
             <td>$${parseFloat(producto.precio_c).toFixed(2)}</td>
             <td>$${parseFloat(producto.precio_v).toFixed(2)}</td>
             <td class="table-actions">
-                <button class="btn btn-sm btn-info btn-icon" onclick="editProducto(${producto.codigo})">
+                <button class="btn btn-sm btn-info btn-icon" onclick="editProducto('${producto.codigo}')">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-danger btn-icon" onclick="deleteProducto(${producto.codigo})">
+                <button class="btn btn-sm btn-danger btn-icon" onclick="deleteProducto('${producto.codigo}')">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
         </tr>
     `).join('');
 }
-
 function showAddProductModal() {
     const content = `
         <form id="product-form">
