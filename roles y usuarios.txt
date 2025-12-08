@@ -1,0 +1,99 @@
+CREATE ROLE dueno;
+CREATE ROLE dba;
+CREATE ROLE gerente;
+CREATE ROLE cajero;
+CREATE ROLE bodeguero;
+CREATE ROLE contador;
+CREATE ROLE proveedor_rol;
+CREATE ROLE cliente_rol;
+
+GRANT SELECT, INSERT, UPDATE ON TABLE public.producto       TO dueno;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.proveedor      TO dueno;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.cliente        TO dueno;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.empleado       TO dueno;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.venta          TO dueno;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_venta  TO dueno;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.compra         TO dueno;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_compra TO dueno;
+
+GRANT INSERT, DELETE ON TABLE public.producto       TO dba;
+GRANT INSERT, DELETE ON TABLE public.proveedor      TO dba;
+GRANT INSERT, DELETE ON TABLE public.cliente        TO dba;
+GRANT INSERT, DELETE ON TABLE public.empleado       TO dba;
+GRANT INSERT, DELETE ON TABLE public.venta          TO dba;
+GRANT INSERT, DELETE ON TABLE public.detalle_venta  TO dba;
+GRANT INSERT, DELETE ON TABLE public.compra         TO dba;
+GRANT INSERT, DELETE ON TABLE public.detalle_compra TO dba;
+
+GRANT SELECT, INSERT, UPDATE ON TABLE public.producto       TO gerente;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.proveedor      TO gerente;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.cliente        TO gerente;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.empleado       TO gerente;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.venta          TO gerente;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_venta  TO gerente;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.compra         TO gerente;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_compra TO gerente;
+
+GRANT SELECT                  ON TABLE public.producto      TO cajero;
+GRANT SELECT                  ON TABLE public.proveedor     TO cajero;
+GRANT SELECT, INSERT, UPDATE  ON TABLE public.cliente       TO cajero;
+GRANT SELECT, INSERT, UPDATE  ON TABLE public.venta         TO cajero;
+GRANT SELECT, INSERT, UPDATE  ON TABLE public.detalle_venta TO cajero;
+
+GRANT SELECT, UPDATE, DELETE  ON TABLE public.producto       TO bodeguero;
+GRANT SELECT                  ON TABLE public.proveedor      TO bodeguero;
+GRANT SELECT                  ON TABLE public.cliente        TO bodeguero;
+GRANT SELECT, INSERT, UPDATE  ON TABLE public.compra         TO bodeguero;
+GRANT SELECT, INSERT, UPDATE  ON TABLE public.detalle_compra TO bodeguero;
+
+GRANT SELECT ON TABLE public.producto       TO contador;
+GRANT SELECT ON TABLE public.proveedor      TO contador;
+GRANT SELECT ON TABLE public.cliente        TO contador;
+GRANT SELECT ON TABLE public.empleado       TO contador;
+GRANT SELECT ON TABLE public.venta          TO contador;
+GRANT SELECT ON TABLE public.detalle_venta  TO contador;
+GRANT SELECT ON TABLE public.compra         TO contador;
+GRANT SELECT ON TABLE public.detalle_compra TO contador;
+
+GRANT SELECT ON TABLE public.producto       TO proveedor_rol;
+GRANT SELECT ON TABLE public.proveedor      TO proveedor_rol;
+GRANT SELECT ON TABLE public.compra         TO proveedor_rol;
+GRANT SELECT ON TABLE public.detalle_compra TO proveedor_rol;
+
+GRANT SELECT ON TABLE public.producto      TO cliente_rol;
+GRANT SELECT ON TABLE public.cliente       TO cliente_rol;
+GRANT SELECT ON TABLE public.venta         TO cliente_rol;
+GRANT SELECT ON TABLE public.detalle_venta TO cliente_rol;
+
+CREATE ROLE jahir LOGIN PASSWORD '1234';
+GRANT dueno TO jahir;
+
+CREATE ROLE juan LOGIN PASSWORD 'abcde';
+GRANT dba TO juan;
+
+CREATE ROLE jonhatan LOGIN PASSWORD '6789';
+GRANT gerente TO jonhatan;
+
+CREATE ROLE mauricio LOGIN PASSWORD 'wxyz';
+GRANT cajero TO mauricio;
+
+CREATE ROLE joaquin LOGIN PASSWORD '112223333';
+GRANT cajero TO joaquin;
+
+CREATE ROLE claudio LOGIN PASSWORD 'aabbbcccc';
+GRANT bodeguero TO claudio;
+
+CREATE ROLE pedro LOGIN PASSWORD '777788899';
+GRANT bodeguero TO pedro;
+
+CREATE ROLE mariana LOGIN PASSWORD 'xxxxyyyzz';
+GRANT contador TO mariana;
+
+CREATE ROLE josefina LOGIN PASSWORD 'azbxcy';
+GRANT contador TO josefina;
+
+CREATE ROLE angel LOGIN PASSWORD '192837';
+GRANT proveedor_rol TO angel;
+
+CREATE ROLE luis LOGIN PASSWORD 'hllwrl';
+GRANT proveedor_rol TO luis;
