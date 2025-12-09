@@ -1,3 +1,6 @@
+-- =====================================================
+-- ROLES
+-- =====================================================
 CREATE ROLE dueno;
 CREATE ROLE dba;
 CREATE ROLE gerente;
@@ -7,63 +10,134 @@ CREATE ROLE contador;
 CREATE ROLE proveedor_rol;
 CREATE ROLE cliente_rol;
 
-GRANT SELECT, INSERT, UPDATE ON TABLE public.producto       TO dueno;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.proveedor      TO dueno;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.cliente        TO dueno;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.empleado       TO dueno;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.venta          TO dueno;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_venta  TO dueno;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.compra         TO dueno;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_compra TO dueno;
+-- =====================================================
+-- PERMISOS POR TABLA Y POR ROL
+-- Usando esquema: fruteria
+-- =====================================================
 
-GRANT INSERT, DELETE ON TABLE public.producto       TO dba;
-GRANT INSERT, DELETE ON TABLE public.proveedor      TO dba;
-GRANT INSERT, DELETE ON TABLE public.cliente        TO dba;
-GRANT INSERT, DELETE ON TABLE public.empleado       TO dba;
-GRANT INSERT, DELETE ON TABLE public.venta          TO dba;
-GRANT INSERT, DELETE ON TABLE public.detalle_venta  TO dba;
-GRANT INSERT, DELETE ON TABLE public.compra         TO dba;
-GRANT INSERT, DELETE ON TABLE public.detalle_compra TO dba;
+-- ============================
+-- TABLA: producto
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.producto TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.producto TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.producto TO gerente;
+GRANT SELECT                             ON fruteria.producto TO cajero;
+GRANT SELECT, UPDATE, DELETE             ON fruteria.producto TO bodeguero;
+GRANT SELECT                             ON fruteria.producto TO contador;
+GRANT SELECT                             ON fruteria.producto TO proveedor_rol;
+GRANT SELECT                             ON fruteria.producto TO cliente_rol;
 
-GRANT SELECT, INSERT, UPDATE ON TABLE public.producto       TO gerente;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.proveedor      TO gerente;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.cliente        TO gerente;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.empleado       TO gerente;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.venta          TO gerente;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_venta  TO gerente;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.compra         TO gerente;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.detalle_compra TO gerente;
+-- ============================
+-- TABLA: proveedor
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.proveedor TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.proveedor TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.proveedor TO gerente;
+GRANT SELECT                             ON fruteria.proveedor TO cajero;
+GRANT SELECT                             ON fruteria.proveedor TO bodeguero;
+GRANT SELECT                             ON fruteria.proveedor TO contador;
+GRANT SELECT                             ON fruteria.proveedor TO proveedor_rol;
 
-GRANT SELECT                  ON TABLE public.producto      TO cajero;
-GRANT SELECT                  ON TABLE public.proveedor     TO cajero;
-GRANT SELECT, INSERT, UPDATE  ON TABLE public.cliente       TO cajero;
-GRANT SELECT, INSERT, UPDATE  ON TABLE public.venta         TO cajero;
-GRANT SELECT, INSERT, UPDATE  ON TABLE public.detalle_venta TO cajero;
+-- ============================
+-- TABLA: producto_proveedor
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.producto_proveedor TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.producto_proveedor TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.producto_proveedor TO gerente;
+GRANT SELECT                             ON fruteria.producto_proveedor TO cajero;
+GRANT SELECT                             ON fruteria.producto_proveedor TO bodeguero;
+GRANT SELECT                             ON fruteria.producto_proveedor TO contador;
+GRANT SELECT                             ON fruteria.producto_proveedor TO proveedor_rol;
 
-GRANT SELECT, UPDATE, DELETE  ON TABLE public.producto       TO bodeguero;
-GRANT SELECT                  ON TABLE public.proveedor      TO bodeguero;
-GRANT SELECT                  ON TABLE public.cliente        TO bodeguero;
-GRANT SELECT, INSERT, UPDATE  ON TABLE public.compra         TO bodeguero;
-GRANT SELECT, INSERT, UPDATE  ON TABLE public.detalle_compra TO bodeguero;
+-- ============================
+-- TABLA: cliente
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.cliente TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.cliente TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.cliente TO gerente;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.cliente TO cajero;
+GRANT SELECT                             ON fruteria.cliente TO contador;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.cliente TO cliente_rol;
 
-GRANT SELECT ON TABLE public.producto       TO contador;
-GRANT SELECT ON TABLE public.proveedor      TO contador;
-GRANT SELECT ON TABLE public.cliente        TO contador;
-GRANT SELECT ON TABLE public.empleado       TO contador;
-GRANT SELECT ON TABLE public.venta          TO contador;
-GRANT SELECT ON TABLE public.detalle_venta  TO contador;
-GRANT SELECT ON TABLE public.compra         TO contador;
-GRANT SELECT ON TABLE public.detalle_compra TO contador;
+-- ============================
+-- TABLA: p_moral
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_moral TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.p_moral TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_moral TO gerente;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_moral TO cajero;
+GRANT SELECT                             ON fruteria.p_moral TO contador;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_moral TO cliente_rol;
 
-GRANT SELECT ON TABLE public.producto       TO proveedor_rol;
-GRANT SELECT ON TABLE public.proveedor      TO proveedor_rol;
-GRANT SELECT ON TABLE public.compra         TO proveedor_rol;
-GRANT SELECT ON TABLE public.detalle_compra TO proveedor_rol;
+-- ============================
+-- TABLA: p_fisica
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_fisica TO dueno;
+GRANT SELECT, INSERT,UPDATE, DELETE      ON fruteria.p_fisica TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_fisica TO gerente;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_fisica TO cajero;
+GRANT SELECT                             ON fruteria.p_fisica TO contador;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.p_fisica TO cliente_rol;
 
-GRANT SELECT ON TABLE public.producto      TO cliente_rol;
-GRANT SELECT ON TABLE public.cliente       TO cliente_rol;
-GRANT SELECT ON TABLE public.venta         TO cliente_rol;
-GRANT SELECT ON TABLE public.detalle_venta TO cliente_rol;
+-- ============================
+-- TABLA: empleado
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.empleado TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.empleado TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.empleado TO gerente;
+GRANT SELECT                             ON fruteria.empleado TO contador;
+
+-- ============================
+-- TABLA: supervisor
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.supervisor TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.supervisor TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.supervisor TO gerente;
+GRANT SELECT                             ON fruteria.supervisor TO contador;
+
+-- ============================
+-- TABLA: venta
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.venta TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.venta TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.venta TO gerente;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.venta TO cajero;
+GRANT SELECT                             ON fruteria.venta TO contador;
+GRANT SELECT                             ON fruteria.venta TO cliente_rol;
+
+-- ============================
+-- TABLA: detalle_venta
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.detalle_venta TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.detalle_venta TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.detalle_venta TO gerente;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.detalle_venta TO cajero;
+GRANT SELECT                             ON fruteria.detalle_venta TO contador;
+GRANT SELECT                             ON fruteria.detalle_venta TO cliente_rol;
+
+-- ============================
+-- TABLA: compra
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.compra TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.compra TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.compra TO gerente;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.compra TO bodeguero;
+GRANT SELECT                             ON fruteria.compra TO contador;
+GRANT SELECT                             ON fruteria.compra TO proveedor_rol;
+
+-- ============================
+-- TABLA: detalle_compra
+-- ============================
+GRANT SELECT, INSERT, UPDATE             ON fruteria.detalle_compra TO dueno;
+GRANT SELECT, INSERT, UPDATE, DELETE     ON fruteria.detalle_compra TO dba;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.detalle_compra TO gerente;
+GRANT SELECT, INSERT, UPDATE             ON fruteria.detalle_compra TO bodeguero;
+GRANT SELECT                             ON fruteria.detalle_compra TO contador;
+GRANT SELECT                             ON fruteria.detalle_compra TO proveedor_rol;
+
+-- =====================================================
+-- USUARIOS Y ASIGNACIÓN DE ROLES
+-- =====================================================
 
 CREATE ROLE jahir LOGIN PASSWORD '1234';
 GRANT dueno TO jahir;
