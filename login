@@ -147,5 +147,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(\🚀 Servidor de login escuchando en http://localhost:\${port}\);
+    console.log(`🚀 Servidor de login escuchando en http://localhost:${port}`);
 });

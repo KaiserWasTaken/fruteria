@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Frutería</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .login-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+        .login-title { color: #2c3e50; font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: bold; }
+        .form-control {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd;
+            border-radius: 6px; font-size: 1rem; box-sizing: border-box;
+        }
+        .btn-login {
+            width: 100%; padding: 12px; background: #27ae60; color: white;
+            border: none; border-radius: 6px; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-login:hover { background: #219150; }
+        .error { color: #e74c3c; margin-top: 10px; display: none; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-title">Frutería "La Frescura"</div>
+        <form id="loginForm">
+            <input type="text" id="username" class="form-control" placeholder="Usuario" required autofocus>
+            <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
+            <button type="submit" class="btn-login">Ingresar</button>
+            <div id="errorMsg" class="error"></div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const err = document.getElementById('errorMsg');
+            
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                const data = await res.json();
+                
+                if (data.ok) {
+                    localStorage.setItem('usuario', data.username);
+                    localStorage.setItem('rol', data.rol);
+                    window.location.href = '/dashboard'; // Redirige al server.js /dashboard
+                } else {
+                    err.textContent = data.error || 'Error de acceso';
+                    err.style.display = 'block';
+                }
+            } catch (e) {
+                err.textContent = 'Error de conexión';
+                err.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
